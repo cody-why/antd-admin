@@ -83,7 +83,7 @@ const Admin: React.FC = () => {
       setMenuItem(menu)
       // 保存菜单数据到状态管理中
       setMenuList(tree(res.data.sys_menu, 0, 'parent_id'))
-    }).catch((err) => {
+    }).catch((_err) => {
     });
   }, [])
 
@@ -102,11 +102,14 @@ const Admin: React.FC = () => {
 
   useEffect(() => {
     setOpenKeys(getFarthers(location.pathname));
-  }, [location.pathname])
+  }, [location])
 
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const onOpenChange = (keys: string[]) => {
     setOpenKeys(keys);
+  };
+  const selectKey = () => {
+    return location.pathname==="/"?"/home":location.pathname
   };
 
   // 获取当前路由的祖先,[/user,/user/list]
@@ -148,8 +151,7 @@ const Admin: React.FC = () => {
           // defaultSelectedKeys={[location.pathname]}
           // defaultOpenKeys={getFarthers(location.pathname)}
           onOpenChange={onOpenChange}
-          selectedKeys={[location.pathname]}
-          // openKeys={getFarthers(location.pathname)}
+          selectedKeys={[selectKey()]}
           openKeys={openKeys}
 
           mode="inline"

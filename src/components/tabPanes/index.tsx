@@ -17,6 +17,7 @@ const TabPanes: React.FC = () => {
   let navigate = useNavigate()
   // 当前路由url，和参数
   const { pathname, search } = useLocation()
+  
   const fullPath = pathname + search
   // 菜单数据
   const { menuList } = tabsPageStore() as any
@@ -28,15 +29,17 @@ const TabPanes: React.FC = () => {
   // )
   // 监听路由变化
   useEffect(() => {
+    const pathname1 = pathname === '/' ? '/home' : pathname
+  
     // 根据路由获取菜单对象，及面包屑
-    const { menuItem, names } = getMenuItemFromPath(pathname, menuList)
+    const { menuItem, names } = getMenuItemFromPath(pathname1, menuList)
     if (names.length > 0) setBreadCrumbs(names)
     // 根据路由获取路由对象
-    const { element } = getRoutesElement(pathname)
+    const { element } = getRoutesElement(pathname1)
     // 无效的新tab，return
     if (!element) return
-    const newPath = pathname + search
-    const index = panesTab.findIndex((item: any) => item.key === pathname)
+    const newPath = pathname1 + search
+    const index = panesTab.findIndex((item: any) => item.key === pathname1)
     // 新tab已存在，重新覆盖掉
     if (index > -1) {
       const newPanesTab = [...panesTab]
@@ -44,18 +47,18 @@ const TabPanes: React.FC = () => {
       newPanesTab[index].label =
         newPanesTab[index].label || (menuItem ? menuItem.name : '')
       setPanesTab(newPanesTab)
-      setActiveKey(pathname)
+      setActiveKey(pathname1)
       return
     }
     // 添加新tab并保存起来
     const newPane = {
-      key: pathname,
+      key: pathname1,
       path: newPath,
       label: menuItem ? menuItem.name : '',
       closable: true,
     }
     setPanesTab([...panesTab, newPane])
-    setActiveKey(pathname)
+    setActiveKey(pathname1)
   }, [pathname, search, menuList])
   // tab 被点击的回调
   const onTabClick = (
