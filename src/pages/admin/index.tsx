@@ -179,7 +179,7 @@ const Admin: React.FC = () => {
             ))}
           </Breadcrumb>
         </Header>
-        <Content style={{ margin: '2px 2px', background: colorBgContainer, borderRadius: borderRadiusLG }}>
+        <Content style={{ margin: '2px 2px', overflow: 'hidden', background: colorBgContainer, borderRadius: borderRadiusLG }}>
           <TabPanes/>
           {/*<div style={{ minHeight: 360, background: colorBgContainer }}>*/}
           {/*  {routesElement}*/}

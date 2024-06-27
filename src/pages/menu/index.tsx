@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { Button, Divider, Modal, Space, Table, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { MenuVo } from './data.d'
+import { MenuListParam, MenuVo } from './data.d'
 import CreateMenuForm from './components/add_menu'
 import UpdateMenuForm from './components/update_menu'
+import AdvancedSearchForm from './components/search_menu'
 import {
   addMenu,
   menuList,
@@ -21,6 +22,7 @@ const Menu: React.FC = () => {
   const [isShowEditModal, setShowEditModal] = useState<boolean>(false)
   const [menuListData, setMenuListData] = useState<MenuVo[]>([])
   const [currentMenu, setCurrentMenu] = useState<MenuVo>()
+  const [search, setSearch] = useState<MenuListParam>()
   const [needLoad, setNeedLoad] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -187,6 +189,18 @@ const Menu: React.FC = () => {
     }
   }
 
+  const handleSearchOk = async (param: MenuListParam) => {
+    setSearch({
+      ...param,
+    })
+    setNeedLoad(!needLoad)
+  }
+
+  const handleResetOk = async () => {
+    setSearch({})
+    setNeedLoad(!needLoad)
+  }
+
   const setMenuDataTree = (res: IResponse) => {
     setMenuListData(tree(res.data, 0, 'parent_id'))
   }
@@ -196,7 +210,7 @@ const Menu: React.FC = () => {
       return
     }
     setLoading(true)
-    let res = await menuList({})
+    let res = await menuList({ ...search })
     if (handleResp(res)) {
       setMenuDataTree(res);
     // setTotal(res.total)
@@ -213,10 +227,14 @@ const Menu: React.FC = () => {
   return (
     <div style={{ padding: 24 }}>
       <div>
-        <Space>
+        <Space size={100}>
           <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
             {t('新建')}
           </Button>
+          <AdvancedSearchForm
+            search={handleSearchOk}
+            reSet={handleResetOk}
+          ></AdvancedSearchForm>
         </Space>
       </div>
 

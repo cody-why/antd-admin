@@ -29,8 +29,8 @@ const TabPanes: React.FC = () => {
   // )
   // 监听路由变化
   useEffect(() => {
-    const pathname1 = pathname === '/' ? '/home' : pathname
-  
+    const path = pathname || '/';
+    const pathname1 = path === '/' ? '/home' : path
     // 根据路由获取菜单对象，及面包屑
     const { menuItem, names } = getMenuItemFromPath(pathname1, menuList)
     if (names.length > 0) setBreadCrumbs(names)

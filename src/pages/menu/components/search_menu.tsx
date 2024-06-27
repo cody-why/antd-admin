@@ -30,9 +30,6 @@ const AdvancedSearchForm: React.FC<CreateUserFormProps> = ({
   const searchForm = () => {
     return (
       <>
-        <FormItem label={t('手机号码')} name="mobile">
-          <Input placeholder={t('手机号码')} />
-        </FormItem>
         <FormItem label={t('状态')} name="status">
           <Select style={{ width: 200 }}>
             <Option value="1">{t('启用')}</Option>

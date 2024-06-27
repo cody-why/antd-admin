@@ -1,9 +1,9 @@
 import React from "react";
 
 export interface MenuListParam {
-    mobile?: string;
     status?: number;
 }
+
 
 export interface MenuVo {
     create_time: string;
