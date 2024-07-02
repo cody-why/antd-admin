@@ -36,13 +36,14 @@ const SetRoleMenuForm: React.FC<UpdateUserFormProps> = ({
     setNeedUpade(false)
     setCheckedKeys([])
     query_role_menu(roleVo.id || 0).then((res) => {
-      if (res.code === 0) {
-        // @ts-ignore
-        setTreeData(tree(res.data.menu_list, 0, 'parent_id'))
-        if (res.data.role_menus) {
-          // setCheckedKeys(res.data.role_menus.map((r: number) => r.toString()))
-          getCheckedKeys(res.data.role_menus)
-        }
+      if (res.code !== 0) {
+        return
+      }
+      // @ts-ignore
+      const td:any = tree(res.data.menu_list, 0, 'parent_id')
+      setTreeData(td)
+      if (res.data.role_menus) {
+        getCheckedKeys(td, res.data.role_menus)
       }
     })
   }, [open])
@@ -64,15 +65,15 @@ const SetRoleMenuForm: React.FC<UpdateUserFormProps> = ({
     // console.log('onCheck checkedKeys: ', checkedKeys);
     // console.log('onCheck info: ', info.halfCheckedKeys);
     // 半选状态的父节点
-    let keys = [...checkedKeys, ...info.halfCheckedKeys];
+    let keys = [...info.halfCheckedKeys, ...checkedKeys];
+    keys.sort();
     setUpdateKeys(keys);
     setNeedUpade(true);
     console.log('onCheck Keys: ', keys);
     
   }
 
-  const getCheckedKeys = (keys: any) => {
-    // setCheckedKeys(keys.map((r: number) => r.toString()))
+  const getCheckedKeys = (treeData:any, keys: any) => {
     // 父节点选中的话,子节点也全部选中, 所以要所有子节点都选中，父节点才选中 
     let newKeys: React.Key[] = [];
     treeData.forEach((item: any) => {
