@@ -132,7 +132,6 @@ const User: React.FC = () => {
   const handleEditOk = async (user: UserVo) => {
     if (handleResp(await updateUser(user))) {
       setShowEditModal(false)
-
       setNeedLoad(!needLoad)
     }
   }

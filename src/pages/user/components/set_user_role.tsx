@@ -69,11 +69,16 @@ const SetUserRoleForm: React.FC<UpdateUserFormProps> = ({
       setSelectedRowKeys([])
       query_user_role(userVo.id).then((res) => {
         console.log(res)
+        if (res.code !== 0) {
+          return
+        }
         setRoleList(res.data.sys_role_list)
 
         if (res.data.user_role_ids) {
           setSelectedRowKeys(res.data.user_role_ids)
         }
+      }).catch((err) => {
+        console.log(err)
       })
     }
   }, [open])

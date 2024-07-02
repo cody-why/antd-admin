@@ -52,8 +52,12 @@ axiosInstance.interceptors.response.use(
             if (response.status === 401) {
                 storageUtils.logout()
                 setTimeout(() => {
-                    let redirectUrl = process.env.REACT_APP_BASENAME+"/login";
-                    window.location.href = redirectUrl;
+                    let base = process.env.REACT_APP_BASENAME;
+                    base = base? base: "/";
+                    if (!base.endsWith("/")) {
+                        base = base + "/";
+                    }
+                    window.location.href = base+"login";
                 }, 1000);
                 
             }
