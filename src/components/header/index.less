@@ -1,0 +1,49 @@
+.themeSwitchWrapper {
+    position: relative;
+    display: inline-flex;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+    align-items: center;
+  }
+  
+.themeSwitch {
+    position: relative;
+    display: flex;
+    width: 50px;
+    height: 22px;
+    padding: 0 6px;
+    margin-left: auto;
+    cursor: pointer;
+    background-color: #151515;
+    border-radius: 30px;
+    justify-content: space-between;
+    align-items: center;
+  
+    &Inner {
+      position: absolute;
+      z-index: 1;
+      width: 18px;
+      height: 18px;
+      background-color: #c5e0ffee;
+      border-radius: 50%;
+      transition: transform 0.5s, background-color 0.5s;
+      will-change: transform;
+    }
+  
+    &Dark {
+      .themeSwitchInner {
+        transform: translateX(calc(100% + 2px));
+      }
+    }
+  
+    & svg {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: -0.15em;
+      fill: currentColor;
+    }
+  }
+  

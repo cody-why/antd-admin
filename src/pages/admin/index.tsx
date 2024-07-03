@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 // import routes from '../../router'
 import React, { useEffect, useState } from 'react'
 import type { MenuProps } from 'antd'
-import { Breadcrumb, Button, Layout, Menu, theme } from 'antd'
+import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd'
 import logo from '../../assets/images/logo.svg'
 import MyHeader from '../../components/header'
 import { query_user_menu } from './service'
@@ -55,7 +55,11 @@ function getMyItem(
 //     ]),
 // ];
 
-const Admin: React.FC = () => {
+interface Props {
+  setTheme: (theme: 'default' | 'dark') => void;
+}
+
+const Admin: React.FC<Props>  = ({ setTheme }) => {
   const {setUserName, setAvatar} = useStore() as any
   // 设置菜单列表Store
   const { setMenuList } = tabsPageStore()
@@ -68,9 +72,8 @@ const Admin: React.FC = () => {
   const [menuItem, setMenuItem] = useState<MenuItem[]>([])
   const [menuVo, setMenuVo] = useState<RecordVo[]>([])
   const [collapsed, setCollapsed] = useState(false)
-  const {
-    token: { colorBgContainer,borderRadiusLG  },
-  } = theme.useToken()
+  // const [colorBgContainer, setColorBgContainer] = useState("#fff")
+  const { token } = theme.useToken()
 
   useEffect(() => {
     query_user_menu().then((res) => {
@@ -85,6 +88,7 @@ const Admin: React.FC = () => {
       setMenuList(tree(res.data.sys_menu, 0, 'parent_id'))
     }).catch((_err) => {
     });
+    
   }, [])
 
   const menuListTree = (menuList: RecordVo[]) => {
@@ -100,11 +104,13 @@ const Admin: React.FC = () => {
     })
   }
 
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+
   useEffect(() => {
     setOpenKeys(getFarthers(location.pathname));
   }, [location])
 
-  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  
   const onOpenChange = (keys: string[]) => {
     setOpenKeys(keys);
   };
@@ -127,6 +133,7 @@ const Admin: React.FC = () => {
 
   const mytheme = "light";
   return (
+    
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         trigger={null}
@@ -163,9 +170,9 @@ const Admin: React.FC = () => {
       </Sider>
       <Layout className="site-layout">
         <Header
-          style={{ padding: 0, background: colorBgContainer, height: '40px' }}
+          style={{ padding: 0,  height: '40px', background: token.colorBgContainer, }}
         >
-          <MyHeader></MyHeader>
+          <MyHeader setTheme={setTheme} />
 
           <Button
             type="text"
@@ -179,15 +186,14 @@ const Admin: React.FC = () => {
             ))}
           </Breadcrumb>
         </Header>
-        <Content style={{ margin: '2px 2px', overflow: 'hidden', background: colorBgContainer, borderRadius: borderRadiusLG }}>
+        
+        <Content style={{ margin: '2px 2px', overflow: 'hidden'}}>
           <TabPanes/>
-          {/*<div style={{ minHeight: 360, background: colorBgContainer }}>*/}
           {/*  {routesElement}*/}
-          {/*</div>*/}
         </Content>
         <Footer style={{ textAlign: 'center', height:'30px'}}>{t('写点东西在这里')}</Footer>
       </Layout>
-    </Layout>
+      </Layout>
   )
 }
 

@@ -3,4 +3,5 @@
         "src/locales",
     ],
     "i18n-ally.extract.keyPrefix": "",
+    "i18n-ally.keystyle": "nested",
 }

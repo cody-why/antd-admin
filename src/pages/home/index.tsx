@@ -1,7 +1,7 @@
 import { t } from 'i18next'
 import React, { useState } from 'react'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Card, Col, Row, Statistic } from 'antd'
+import { Card, Col, Row, Statistic, theme } from 'antd'
 import ReactEcharts from 'echarts-for-react'
 
 const Home: React.FC = () => {
@@ -127,8 +127,12 @@ const Home: React.FC = () => {
       ],
     }
   }
+
+  const { token } = theme.useToken()
+  
   return (
-    <div style={{ backgroundColor: '#f5f5f5' }}>
+    <div style={{ background: token.colorBgLayout, padding: '5px'}}>
+    {/* <div> */}
       <Row gutter={16}>
         <Col span={6}>
           <Card bordered={false} hoverable>
@@ -189,7 +193,7 @@ const Home: React.FC = () => {
           </Card>
         </Col>
       </Row>
-      <Row style={{ marginTop: 10, backgroundColor: 'white', padding: 5 }}>
+      <Row style={{ marginTop: 10,  padding: 5 }}>
         <Col span={24}>
           <Card bordered={false} hoverable>
             <ReactEcharts option={getOption3()} style={{ height: 280 }} />

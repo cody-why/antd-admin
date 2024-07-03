@@ -8,6 +8,8 @@ import {useNavigate} from "react-router-dom";
 import useStore from "../../store";
 import { t } from 'i18next';
 import SelectLang from '../selectLang';
+import { Icon } from '@iconify/react';
+import './index.less'
 
 const items = () => {
     let items: MenuProps['items'] = [
@@ -33,12 +35,21 @@ const items = () => {
     return items;
 };
 
+interface HeaderProps {
+    setTheme: (theme: 'default' | 'dark') => void;
+}
 
-const MyHeader: React.FC = () => {
+const MyHeader: React.FC<HeaderProps> = ({ setTheme }) => {
     const {userName, avatar} = useStore()as any;
     const navigate = useNavigate();
-
+    
     const [currentTime, setCurrentTime] = useState<string>(moment().format('YYYY-MM-DD HH:mm:ss'));
+
+    const handleThemeChange = (theme: 'default' | 'dark') => {
+        setTheme(theme);
+        setThemeName(theme);
+    };
+    const [themeName, setThemeName] = useState('default');
 
     useEffect(() => {
         setInterval(() => {
@@ -59,9 +70,19 @@ const MyHeader: React.FC = () => {
 
     
     return (
-        <Space style={{ float: "right", marginRight: 30, height:'40px' }}>
+        <Space style={{ float: "right", marginRight: 30, height:'40px'}}>
             <span style={{ marginRight: 10 }}>{currentTime}</span>
-           
+
+            <div className='themeSwitchWrapper '>
+                <div className={themeName === 'default' ? 'themeSwitch' : 'themeSwitch themeSwitchDark'}
+                    title="更换主题"
+                    onClick={() => handleThemeChange(themeName === 'default' ? 'dark' : 'default')}
+                >
+                <div className='themeSwitchInner'/>
+                    <Icon icon="emojione:sun" />
+                    <Icon icon="bi:moon-stars-fill" color="#ffe62e" />
+                </div>
+            </div>
             <SelectLang />
             
             <Dropdown menu={{items: items(), onClick}} placement="bottom" arrow>

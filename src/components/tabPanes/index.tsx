@@ -1,17 +1,13 @@
 import { t } from 'i18next'
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Tabs, Dropdown, Alert } from 'antd'
+import { Tabs, Dropdown, Alert, theme } from 'antd'
 import { getMenuItemFromPath, getRoutesElement } from '@/utils/publicFunc'
 import tabsPageStore, { usePanesState } from '@/store/tabsPageStore'
 import { PanesTab } from '@/components/tabPanes/data.d'
 import type { MenuProps } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string
-
-const tabsStyle = {
-  backgroundColor: 'white',
-}
 
 const TabPanes: React.FC = () => {
   let navigate = useNavigate()
@@ -23,10 +19,9 @@ const TabPanes: React.FC = () => {
   const { menuList } = tabsPageStore() as any
   // 页签数据
   const { panesTab, activeKey, setPanesTab, setBreadCrumbs, setActiveKey } = usePanesState()
-  // 页签选中key
-  // const [activeKey, setActiveKey] = useState(
-  //   panesTab.length > 0 ? panesTab[0].key : ''
-  // )
+
+  const token = theme.useToken()?.token
+
   // 监听路由变化
   useEffect(() => {
     const path = pathname || '/';
@@ -196,9 +191,8 @@ const TabPanes: React.FC = () => {
   }
 
   return (
-    <div>
       <Tabs
-        style={tabsStyle}
+        style={{ background: token.colorBgContainer }}
         hideAdd
         type="editable-card"
         activeKey={activeKey}
@@ -232,7 +226,6 @@ const TabPanes: React.FC = () => {
             ),
         }))}
       ></Tabs>
-    </div>
   )
 }
 

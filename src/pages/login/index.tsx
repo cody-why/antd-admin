@@ -12,7 +12,11 @@ import { t } from 'i18next'
 import SelectLang from '../../components/selectLang'
 import tabsPageStore, { usePanesState } from '@/store/tabsPageStore'
 
-const Login: React.FC = () => {
+interface Props {
+  setTheme: (theme: 'default' | 'dark') => void;
+}
+
+const Login: React.FC<Props> = ({ setTheme }) => {
   const { setMenuList } = tabsPageStore()
   const { setPanesTab, setBreadCrumbs } = usePanesState()
 
@@ -21,6 +25,7 @@ const Login: React.FC = () => {
     setMenuList([])
     setPanesTab([])
     setBreadCrumbs([])
+    setTheme('default')
   }, []) 
 
   let navigate = useNavigate()
