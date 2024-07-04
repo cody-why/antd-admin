@@ -1,20 +1,13 @@
 .themeSwitchWrapper {
-    position: relative;
-    display: inline-flex;
-    height: 24px;
-    line-height: 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .3s;
-    align-items: center;
+    padding-top: 1px;
   }
   
 .themeSwitch {
     position: relative;
     display: flex;
-    width: 50px;
-    height: 22px;
-    padding: 0 6px;
+    width: 44px;
+    height: 20px;
+    padding: 0 4px;
     margin-left: auto;
     cursor: pointer;
     background-color: #151515;
@@ -25,8 +18,8 @@
     &Inner {
       position: absolute;
       z-index: 1;
-      width: 18px;
-      height: 18px;
+      width: 15px;
+      height: 15px;
       background-color: #c5e0ffee;
       border-radius: 50%;
       transition: transform 0.5s, background-color 0.5s;
@@ -35,11 +28,11 @@
   
     &Dark {
       .themeSwitchInner {
-        transform: translateX(calc(100% + 2px));
+        transform: translateX(calc(100% + 6px));
       }
     }
   
-    & svg {
+    &svg {
       display: inline-block;
       overflow: hidden;
       vertical-align: -0.15em;

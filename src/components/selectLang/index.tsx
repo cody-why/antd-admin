@@ -62,7 +62,7 @@ const SelectLang: React.FC = () => {
       >
         <a onClick={(e) => e.preventDefault()}>
           <Space className="space">
-            <div className={'avatar'}>
+            <div className='avatar'>
               <Icon icon="mdi:translate-variant" width={24} />
             </div>
             <DownOutlined />
