@@ -86,13 +86,13 @@ const MyHeader: React.FC<HeaderProps> = ({ setTheme }) => {
             <SelectLang />
             
             <Dropdown menu={{items: items(), onClick}} placement="bottom" arrow>
-                <a onClick={(e) => e.preventDefault()}>
+                <span className="hover-blue">
                     <Space>
                         <Avatar src={avatar} alt="avatar"/>
                         {userName}
                         <DownOutlined/>
                     </Space>
-                </a>
+                </span>
             </Dropdown>
         </Space>
     );

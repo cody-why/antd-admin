@@ -25,35 +25,34 @@ const TabPanes: React.FC = () => {
   // 监听路由变化
   useEffect(() => {
     const path = pathname || '/';
-    const pathname1 = path === '/' ? '/home' : path
+    const pathname2 = path === '/' ? '/home' : path
     // 根据路由获取菜单对象，及面包屑
-    const { menuItem, names } = getMenuItemFromPath(pathname1, menuList)
+    const { menuItem, names } = getMenuItemFromPath(pathname2, menuList)
     if (names.length > 0) setBreadCrumbs(names)
     // 根据路由获取路由对象
-    const { element } = getRoutesElement(pathname1)
+    const { element } = getRoutesElement(pathname2)
     // 无效的新tab，return
     if (!element) return
-    const newPath = pathname1 + search
-    const index = panesTab.findIndex((item: any) => item.key === pathname1)
+    const newPath = pathname2 + search
+    const index = panesTab.findIndex((item: any) => item.key === pathname2)
     // 新tab已存在，重新覆盖掉
     if (index > -1) {
       const newPanesTab = [...panesTab]
       newPanesTab[index].path = newPath
-      newPanesTab[index].label =
-        newPanesTab[index].label || (menuItem ? menuItem.name : '')
+      newPanesTab[index].label = newPanesTab[index].label || (menuItem ? menuItem.name : '')
       setPanesTab(newPanesTab)
-      setActiveKey(pathname1)
+      setActiveKey(pathname2)
       return
     }
     // 添加新tab并保存起来
     const newPane = {
-      key: pathname1,
+      key: pathname2,
       path: newPath,
       label: menuItem ? menuItem.name : '',
-      closable: true,
+      closable: pathname2 !== '/home',
     }
     setPanesTab([...panesTab, newPane])
-    setActiveKey(pathname1)
+    setActiveKey(pathname2)
   }, [pathname, search, menuList])
   // tab 被点击的回调
   const onTabClick = (
@@ -133,8 +132,7 @@ const TabPanes: React.FC = () => {
       },
     ]
 
-    const nowPanes =
-      key !== '/home' && !isCloseAll ? [...homePanel, selectedPanel] : homePanel
+    const nowPanes = key !== '/home' && !isCloseAll ? [...homePanel, selectedPanel] : homePanel
     setPanesTab(nowPanes)
     setActiveKey(isCloseAll ? '/home' : key)
   }

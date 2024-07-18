@@ -41,7 +41,7 @@ const Role: React.FC = () => {
     {
       title: t('名称'),
       dataIndex: 'role_name',
-      render: (text: string) => <a>{text}</a>,
+      // render: (text: string) => <a>{text}</a>,
     },
     {
       title: t('状态'),

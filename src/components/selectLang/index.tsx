@@ -60,14 +60,14 @@ const SelectLang: React.FC = () => {
         placement="bottom"
         arrow
       >
-        <a onClick={(e) => e.preventDefault()}>
+        <span className="hover-blue">
           <Space className="space">
             <div className='avatar'>
               <Icon icon="mdi:translate-variant" width={24} />
             </div>
             <DownOutlined />
           </Space>
-        </a>
+        </span>
       </Dropdown>
     </Space>
   )

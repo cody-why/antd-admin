@@ -31,7 +31,7 @@ const Menu: React.FC = () => {
     {
       title: t('名称'),
       dataIndex: 'menu_name',
-      render: (text: string) => <a>{text}</a>,
+      // render: (text: string) => <a>{text}</a>,
     },
     {
       title: t('路径'),

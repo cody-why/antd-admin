@@ -48,7 +48,7 @@ const User: React.FC = () => {
     {
       title: t('手机号'),
       dataIndex: 'mobile',
-      render: (text: string) => <a>{text}</a>,
+      // render: (text: string) => <a>{text}</a>,
     },
     {
       title: t('用户名'),

@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 // import routes from '../../router'
 import React, { useEffect, useState } from 'react'
 import type { MenuProps } from 'antd'
-import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd'
+import { Breadcrumb, Button, Layout, Menu, theme } from 'antd'
 import logo from '../../assets/images/logo.svg'
 import MyHeader from '../../components/header'
 import { query_user_menu } from './service'
@@ -155,8 +155,7 @@ const Admin: React.FC<Props>  = ({ setTheme }) => {
         </Link>
         <Menu
           theme= {mytheme}
-          // defaultSelectedKeys={[location.pathname]}
-          // defaultOpenKeys={getFarthers(location.pathname)}
+
           onOpenChange={onOpenChange}
           selectedKeys={[selectKey()]}
           openKeys={openKeys}

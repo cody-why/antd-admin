@@ -91,7 +91,7 @@ const Login: React.FC<Props> = ({ setTheme }) => {
               <Checkbox>{t('pages.login.rememberMe')}</Checkbox>
             </Form.Item>
 
-            <a className="login-form-forgot" href="">
+            <a className="login-form-forgot" href="#">
               {t('pages.login.forgotPassword')}
             </a>
           </Form.Item>

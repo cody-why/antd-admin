@@ -2,6 +2,7 @@
 - 添加.env文件:
     - REACT_APP_BASE_URL='http://localhost:8000'
     - REACT_APP_BASENAME=''
+  调试的时候屏蔽REACT_APP_BASENAME,生产环境需要设置目录名,如'/antd-admin'
 - `npm install @craco/craco --save`
 - `npm start`
 - 修改package.json, `"craco-less": "^3.0.0",`

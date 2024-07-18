@@ -5,8 +5,8 @@ import { Card, Col, Row, Statistic, theme } from 'antd'
 import ReactEcharts from 'echarts-for-react'
 
 const Home: React.FC = () => {
-  const [sales, setSales] = useState<number[]>([5, 20, 36, 10, 10, 20])
-  const [inventorys, setInventorys] = useState<number[]>([
+  const [sales] = useState<number[]>([5, 20, 36, 10, 10, 20])
+  const [inventorys] = useState<number[]>([
     15, 30, 46, 20, 20, 40,
   ])
 

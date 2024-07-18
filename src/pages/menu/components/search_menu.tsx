@@ -1,7 +1,7 @@
 import { t } from 'i18next'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { SearchOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Select, Space } from 'antd'
+import { Button, Form, Select, Space } from 'antd'
 import { MenuVo } from '../data'
 
 const { Option } = Select
@@ -19,6 +19,9 @@ const AdvancedSearchForm: React.FC<CreateUserFormProps> = ({
   const [form] = Form.useForm()
 
   const onFinish = (values: any) => {
+    if (values.status) {
+      values.status = parseInt(values.status, 10);
+    }
     search(values)
   }
 
@@ -32,6 +35,7 @@ const AdvancedSearchForm: React.FC<CreateUserFormProps> = ({
       <>
         <FormItem label={t('状态')} name="status">
           <Select style={{ width: 200 }}>
+            <Option value="null">{t('全部')}</Option>
             <Option value="1">{t('启用')}</Option>
             <Option value="0">{t('禁用')}</Option>
           </Select>
