@@ -1,4 +1,4 @@
-import {axiosInstance, IResponse} from "../../api/ajax";
+import {ajax, IResponse} from "../../api/ajax";
 import {MenuVo, MenuListParam} from "./data";
 
 /**
@@ -7,7 +7,7 @@ import {MenuVo, MenuListParam} from "./data";
  * @return {Promise}
  */
 export const menuList = (req: MenuListParam): Promise<IResponse> => {
-    return axiosInstance.post('admin/menu_list', req).then(res => res.data);
+    return ajax.post('admin/menu/list', req)
 };
 
 /**
@@ -16,7 +16,7 @@ export const menuList = (req: MenuListParam): Promise<IResponse> => {
  * @return {Promise}
  */
 export const addMenu = (menu: MenuVo): Promise<IResponse> => {
-    return axiosInstance.post('admin/menu_save', menu).then(res => res.data);
+    return ajax.post('admin/menu', menu)
 };
 
 /**
@@ -25,7 +25,7 @@ export const addMenu = (menu: MenuVo): Promise<IResponse> => {
  * @return {Promise}
  */
 export const updateMenu = (menu: MenuVo): Promise<IResponse> => {
-    return axiosInstance.post('admin/menu_update', menu).then(res => res.data);
+    return ajax.put('admin/menu', menu)
 };
 
 /**
@@ -34,6 +34,6 @@ export const updateMenu = (menu: MenuVo): Promise<IResponse> => {
  * @return {Promise}
  */
 export const removeMenu = (ids: Number[]): Promise<IResponse> => {
-    return axiosInstance.post('admin/menu_delete', {ids: ids}).then(res => res.data);
+    return ajax.delete('admin/menu', {data: { ids: ids }})
 };
 

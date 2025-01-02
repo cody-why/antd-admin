@@ -1,5 +1,5 @@
-import {axiosInstance, IResponse} from "../../api/ajax";
-import {UserVo, UserListParam} from "./data";
+import {ajax, IResponse} from "../../api/ajax";
+import {UserVo, UserListParam, UpdateUserPasswordBody} from "./data";
 
 /**
  * @description: 用户列表
@@ -7,7 +7,7 @@ import {UserVo, UserListParam} from "./data";
  * @return {Promise}
  */
 export const userList = (req: UserListParam): Promise<IResponse> => {
-    return axiosInstance.post('admin/user_list', req).then(res => res.data);
+    return ajax.post('admin/user/list', req)
 };
 
 /**
@@ -16,7 +16,7 @@ export const userList = (req: UserListParam): Promise<IResponse> => {
  * @return {Promise}
  */
 export const addUser = (user: UserVo): Promise<IResponse> => {
-    return axiosInstance.post('admin/user_save', user).then(res => res.data);
+    return ajax.post('admin/user', user)
 };
 
 /**
@@ -25,7 +25,7 @@ export const addUser = (user: UserVo): Promise<IResponse> => {
  * @return {Promise}
  */
 export const updateUser = (user: UserVo): Promise<IResponse> => {
-    return axiosInstance.post('admin/user_update', user).then(res => res.data);
+    return ajax.put('admin/user', user)
 };
 
 /**
@@ -34,7 +34,7 @@ export const updateUser = (user: UserVo): Promise<IResponse> => {
  * @return {Promise}
  */
 export const removeUser = (ids: Number[]): Promise<IResponse> => {
-    return axiosInstance.post('admin/user_delete', {ids: ids}).then(res => res.data);
+    return ajax.delete('admin/user', {data:{ids: ids}})
 };
 
 /**
@@ -43,7 +43,7 @@ export const removeUser = (ids: Number[]): Promise<IResponse> => {
  * @return {Promise}
  */
 export const query_user_role = (user_id: Number): Promise<IResponse> => {
-    return axiosInstance.post('admin/query_user_role', {user_id: user_id}).then(res => res.data);
+    return ajax.post('admin/user/role', {user_id: user_id})
 };
 
 /**
@@ -52,5 +52,24 @@ export const query_user_role = (user_id: Number): Promise<IResponse> => {
  * @return {Promise}
  */
 export const update_user_role = (user_id: Number, role_ids: Number[]): Promise<IResponse> => {
-    return axiosInstance.post('admin/update_user_role', {user_id: user_id, role_ids: role_ids}).then(res => res.data);
+    return ajax.put('admin/user/role', {user_id: user_id, role_ids: role_ids})
 };
+
+
+/**
+ * @description: 重置用户密码
+ * @params {user_id} number
+ * @return {Promise}
+ */
+export const reset_user_password = (user_id: Number): Promise<IResponse> => {
+    return ajax.put('admin/user/reset_password', {user_id: user_id})
+};
+
+/**
+ * @description: 修改用户密码
+ * @params {user_id} number
+ * @return {Promise}
+ */
+export const update_user_password = (vo: UpdateUserPasswordBody): Promise<IResponse> => {
+    return ajax.put('admin/user_password', vo)
+}

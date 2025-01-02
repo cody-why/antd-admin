@@ -20,7 +20,6 @@ import {
 } from './service'
 import AdvancedSearchForm from './components/search_role'
 import SetRoleMenuForm from './components/set_role_menu'
-import { handleResp } from '@/api/ajax'
 
 const Role: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -109,9 +108,9 @@ const Role: React.FC = () => {
   }
 
   const handleAddOk = async (role: RoleVo) => {
-    if (handleResp(await addRole(role))) {
+    const res = await addRole(role)
+    if (res.code === 0) {
       setShowAddModal(false)
-
       setNeedLoad(!needLoad)
     }
   }
@@ -126,9 +125,9 @@ const Role: React.FC = () => {
   }
 
   const handleEditOk = async (role: RoleVo) => {
-    if (handleResp(await updateRole(role))) {
+    const res = await updateRole(role)
+    if (res.code === 0) {
       setShowEditModal(false)
-
       setNeedLoad(!needLoad)
     }
   }
@@ -143,9 +142,9 @@ const Role: React.FC = () => {
   }
 
   const handleMenuOk = async (role_id: Number, menu_ids: Number[]) => {
-    if (handleResp(await update_role_menu(role_id, menu_ids))) {
+    const res = await update_role_menu(role_id, menu_ids)
+    if (res.code === 0) {
       setShowMenuModal(false)
-
       setNeedLoad(!needLoad)
     }
   }
@@ -169,7 +168,8 @@ const Role: React.FC = () => {
 
   //批量删除
   const handleRemove = async (ids: number[]) => {
-    if (handleResp(await removeRole(ids))) {
+    const res = await removeRole(ids)
+    if (res.code === 0) {
       setNeedLoad(!needLoad)
     }
   }
@@ -181,9 +181,10 @@ const Role: React.FC = () => {
     setNeedLoad(!needLoad)
   }
 
+  // 重置搜索条件 
   const handleResetOk = async () => {
     setSearch({})
-    setNeedLoad(!needLoad)
+    // setNeedLoad(!needLoad)
   }
 
   const handleList = async () => {
@@ -191,10 +192,11 @@ const Role: React.FC = () => {
       return
     }
     setLoading(true)
-    let res = await roleList({ pageNo: currentPage, pageSize, ...search })
-    if (handleResp(res)) {
-      setTotal(res.total)
-      setRoleListData(res.data) 
+    const res = await roleList({ page_no: currentPage, page_size: pageSize, ...search })
+    if (res.code === 0) {
+      setRoleListData(res.data.items)
+      setTotal(res.data.total)
+      setCurrentPage(res.data.page_no)
     }
     setTimeout(() => {
       setLoading(false)
@@ -216,7 +218,6 @@ const Role: React.FC = () => {
       <span>
         {t('总共')}
         {total}
-        {t('条')}
       </span>
     ),
 
@@ -233,9 +234,9 @@ const Role: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ paddingLeft: 12 }}>
       <div>
-        <Space size={100}>
+        <Space size={60}>
           <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
             {t('新建')}
           </Button>
@@ -284,7 +285,6 @@ const Role: React.FC = () => {
         <div>
           {t('已选择')}
           {selectedRowKeys.length}
-          {t('项')}
           <Button
             style={{ float: 'right' }}
             danger

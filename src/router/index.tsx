@@ -6,7 +6,6 @@ import Menu from "../pages/menu";
 import Bar from "../pages/charts/bar";
 import Line from "../pages/charts/line";
 import Pie from "../pages/charts/pie";
-import Log from "../pages/log/index";
 import Center from "../pages/account/center";
 import Setting from "../pages/account/settings";
 
@@ -26,10 +25,6 @@ const routes = [
     {
         path: "/menu",
         element: <Menu/>
-    },
-    {
-        path: "/log",
-        element: <Log/>
     },
     {
         path: "/bar",

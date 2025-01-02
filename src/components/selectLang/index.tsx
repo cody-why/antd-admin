@@ -14,13 +14,8 @@ const langs: MenuProps['items'] = [
     icon: <Icon icon="circle-flags:cn" />,
   },
   {
-    key: 'tw',
-    /*i18n-ignore*/
-    label: '繁体',
-    icon: <Icon icon="circle-flags:tw" />,
-  },
-  {
     key: 'en',
+    /*i18n-ignore*/
     label: 'EN',
     icon: <Icon icon="circle-flags:en" />,
   },
@@ -33,7 +28,6 @@ const langs: MenuProps['items'] = [
 // const langMap: LangMap = {
 //     en: 'EN',
 //     zh: '简体',
-//     tw: '繁体'
 // };
 
 const SelectLang: React.FC = () => {

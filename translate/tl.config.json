@@ -8,10 +8,6 @@
     {
       "json_key": "en",
       "to": "en"
-    },
-    {
-      "json_key": "zh-TW",
-      "to": "zh-TW"
     }
   ]
 }

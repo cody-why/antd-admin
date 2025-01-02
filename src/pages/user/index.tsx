@@ -1,6 +1,6 @@
 import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
-import { Button, Divider, Modal, Space, Table, Tag } from 'antd'
+import { Button, Divider, Dropdown, Modal, Space, Table, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import {
   DeleteOutlined,
@@ -20,7 +20,6 @@ import {
 } from './service'
 import AdvancedSearchForm from './components/search_user'
 import SetUserRoleForm from './components/set_user_role'
-import { handleResp } from '@/api/ajax'
 
 const User: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -39,7 +38,7 @@ const User: React.FC = () => {
   const tag_style = { height: 30, paddingTop: 4 };
   const columns: ColumnsType<UserVo> = [
     {
-      title: t('手机号'),
+      title: t('手机号码'),
       dataIndex: 'mobile',
       render: (text: string) => <a>{text}</a>,
     },
@@ -50,6 +49,7 @@ const User: React.FC = () => {
     {
       title: t('状态'),
       dataIndex: 'status',
+      width: 80,
       render: (_, { status }) => (
         <>
           {
@@ -70,52 +70,60 @@ const User: React.FC = () => {
     {
       title: t('创建时间'),
       dataIndex: 'create_time',
+      width: 230,
     },
     {
       title: t('更新时间'),
       dataIndex: 'update_time',
+      width: 230,
     },
     {
       title: t('操作'),
       key: 'action',
+      fixed: 'right',
       render: (_, record) => (
-        <Space size="small">
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => showEditModal(record)}
-          >
-            {t('编辑')}
+        <Dropdown menu={actionMenu(record)} trigger={['click']}>
+          <Button type="primary" danger style={{ width: 60 }}>
+             ...
           </Button>
-          <Button
-            type="default"
-            style={{ backgroundColor: '#626aef', color: 'white' }}
-            icon={<SettingOutlined />}
-            onClick={() => showRoleModal(record)}
-          >
-            {t('设置角色')}
-          </Button>
-          <Button
-            type="primary"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => showDeleteConfirm(record)}
-          >
-            {t('删除')}
-          </Button>
-        </Space>
+        </Dropdown>
       ),
     },
   ]
+
+  const actionMenu = (record: UserVo) => ({
+    items: [
+      {
+        key: 'edit',
+        icon: <EditOutlined />,
+        label: t('编辑'),
+        onClick: () => showEditModal(record),
+      },
+      {
+        key: 'role',
+        icon: <SettingOutlined />,
+        label: t('设置角色'),
+        style: { color: '#626aef' },
+        onClick: () => showRoleModal(record),
+      },
+      {
+        key: 'delete',
+        icon: <DeleteOutlined />,
+        label: t('删除'),
+        danger: true,
+        onClick: () => showDeleteConfirm(record),
+      },
+    ],
+  });
 
   const showModal = () => {
     setShowAddModal(true)
   }
 
   const handleAddOk = async (user: UserVo) => {
-    if (handleResp(await addUser(user))) {
+    const res = await addUser(user)
+    if (res.code === 0) {
       setShowAddModal(false)
-
       setNeedLoad(!needLoad)
     }
   }
@@ -130,7 +138,8 @@ const User: React.FC = () => {
   }
 
   const handleEditOk = async (user: UserVo) => {
-    if (handleResp(await updateUser(user))) {
+    const res = await updateUser(user)
+    if (res.code === 0) {
       setShowEditModal(false)
       setNeedLoad(!needLoad)
     }
@@ -146,9 +155,9 @@ const User: React.FC = () => {
   }
 
   const handleRoleOk = async (user_id: number, role_ids: number[]) => {
-    if (handleResp(await update_user_role(user_id, role_ids))) {
+    const res = await update_user_role(user_id, role_ids)
+    if (res.code === 0) {
       setShowRoleModal(false)
-
       setNeedLoad(!needLoad)
     }
   }
@@ -172,7 +181,8 @@ const User: React.FC = () => {
 
   //批量删除
   const handleRemove = async (ids: number[]) => {
-    if (handleResp(await removeUser(ids))) {
+    const res = await removeUser(ids)
+    if (res.code === 0) {
       setNeedLoad(!needLoad)
     }
   }
@@ -184,9 +194,10 @@ const User: React.FC = () => {
     setNeedLoad(!needLoad)
   }
 
+  // 重置搜索条件 
   const handleResetOk = async () => {
     setSearch({})
-    setNeedLoad(!needLoad)
+    // setNeedLoad(!needLoad)
   }
 
   const handleList = async () => {
@@ -194,10 +205,11 @@ const User: React.FC = () => {
       return
     }
     setLoading(true)
-    let res = await userList({ pageNo: currentPage, pageSize, ...search })
-    if (handleResp(res)) {
-      setUserListData(res.data);
-      setTotal(res.total);
+    const res = await userList({ page_no: currentPage, page_size: pageSize, ...search })
+    if (res.code === 0) {
+      setUserListData(res.data.items)
+      setTotal(res.data.total)
+      setCurrentPage(res.data.page_no)
     }
     setTimeout(() => {
       setLoading(false)
@@ -219,7 +231,6 @@ const User: React.FC = () => {
       <span>
         {t('总共')}
         {total}
-        {t('条')}
       </span>
     ),
 
@@ -237,9 +248,9 @@ const User: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ paddingLeft: 12 }}>
       <div>
-        <Space size={100}>
+        <Space size={60}>
           <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
             {t('新建')}
           </Button>
@@ -288,7 +299,6 @@ const User: React.FC = () => {
         <div>
           {t('已选择')}
           {selectedRowKeys.length}
-          {t('项')}
           <Button
             style={{ float: 'right' }}
             danger
