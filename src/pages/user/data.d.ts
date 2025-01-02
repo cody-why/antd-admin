@@ -1,7 +1,7 @@
 
 export interface UserListParam {
-    pageNo: number;
-    pageSize?: number;
+    page_no: number;
+    page_size?: number;
     mobile?: string;
     status?: number;
 }
@@ -29,4 +29,11 @@ export const defaultUserVo: UserVo = {
     remark: '',
     status: 0,
     update_time: '',
+}
+
+export interface UpdateUserPasswordBody {
+    username: string;
+    password: string;
+    new_password: string;
+    code: string;
 }

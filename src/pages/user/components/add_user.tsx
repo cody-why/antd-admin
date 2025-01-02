@@ -38,9 +38,9 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({
     return (
       <>
         <FormItem
-          label={t('手机号')}
+          label={t('手机号码')}
           name="mobile"
-          rules={[{ required: true, message: t('请输入手机号!') }]}
+          rules={[{ required: true, message: t('请输入手机号码!') }]}
         >
           <Input />
         </FormItem>

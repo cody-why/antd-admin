@@ -1,17 +1,15 @@
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
 
-import {showMessage} from "./status";
-import {message} from 'antd';
+import {showStatusMessage} from "./status";
 import {storageUtils} from "../utils/storageUtils";
 import { t } from 'i18next';
-
+import { message } from '@/App';
 
 // 返回res.data的interface
 export interface IResponse {
     code: number | string;
     data: any;
     msg: string;
-    total: number
 }
 
 export const axiosInstance: AxiosInstance = axios.create({
@@ -22,6 +20,8 @@ export const axiosInstance: AxiosInstance = axios.create({
     },
     timeout: 10000,
 });
+
+
 
 // axios实例拦截响应
 axiosInstance.interceptors.response.use(
@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
         if (response.status === 200) {
             return response;
         } else {
-            showMessage(response.status);
+            showStatusMessage(response.status);
             return response;
         }
     },
@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
         if (response) {
             // console.log(response);
             // 请求已发出，但是不在2xx的范围
-            showMessage(response.status);
+            showStatusMessage(response.status);
             if (response.status === 401) {
                 storageUtils.logout()
                 setTimeout(() => {
@@ -80,7 +80,8 @@ axiosInstance.interceptors.request.use(
             // @ts-ignore
             config.headers.Authorization = `Bearer ${token}`
         }
-
+        config.headers.lang = storageUtils.getI18n()
+        config.headers.timestamp = new Date().getTime()
         return config;
     },
     (error: any) => {
@@ -88,20 +89,45 @@ axiosInstance.interceptors.request.use(
     }
 )
 
-
-
-/**
- * 统一处理
- * @param resp
- */
-export const handleResp = (resp: IResponse): boolean => {
-    // resp.code === 0 ? message.success(resp.msg) : message.error(resp.msg);
-    if (resp.code === 0) {
-        message.success(resp.msg);
-    } else {
-        if (resp.msg) {
-            message.error(resp.msg);
-        }
+const showMessage = (resp: IResponse) => {
+    if (resp.msg) {
+        resp.code === 0 ? message.success(resp.msg) : message.error(resp.msg)
     }
-    return resp.code === 0
+    
+}
+
+// 封装axios实例, 方便调用, 如: ajax.post('/api/login', data)
+export interface Ajax {
+    get: (url: string, config?: any) => Promise<IResponse>;
+    post: (url: string, data: any, config?: any) => Promise<IResponse>;
+    put: (url: string, data: any, config?: any) => Promise<IResponse>;
+    delete: (url: string, config?: any) => Promise<IResponse>;
+}
+
+export const ajax: Ajax = {
+    get: (url: string, config: any) => {
+        return axiosInstance.get(url, config).then(resp => {
+            showMessage(resp.data)
+            return resp.data
+        })
+    },
+    post: (url: string, data: any, config: any) => {
+        return axiosInstance.post(url, data, config).then(resp => {
+            showMessage(resp.data)
+            return resp.data
+        })
+    },
+    put: (url: string, data: any, config: any) => {
+        return axiosInstance.put(url, data, config).then(resp => {
+            showMessage(resp.data)
+            return resp.data
+        })
+    },
+    delete: (url: string, config: any) => {
+        return axiosInstance.delete(url, config).then(resp => {
+            showMessage(resp.data)
+            return resp.data
+        })
+    }
 };
+

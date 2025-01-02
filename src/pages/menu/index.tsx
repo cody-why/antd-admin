@@ -14,7 +14,7 @@ import {
   updateMenu,
 } from './service'
 import { tree } from '../../utils/treeUtils'
-import { IResponse, handleResp } from '../../api/ajax'
+import { IResponse } from '../../api/ajax'
 
 const Menu: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -44,6 +44,7 @@ const Menu: React.FC = () => {
     {
       title: t('类型'),
       dataIndex: 'menu_type',
+      width: 80,
       render: (_, { menu_type }) => (
         <>
           {menu_type === 1 && (
@@ -79,6 +80,7 @@ const Menu: React.FC = () => {
     {
       title: t('排序'),
       dataIndex: 'sort',
+      width: 60,
     },
     {
       title: t('图标'),
@@ -87,6 +89,7 @@ const Menu: React.FC = () => {
     {
       title: t('状态'),
       dataIndex: 'status',
+      width: 60,
       render: (_, { status }) => (
         <>
           {
@@ -119,6 +122,7 @@ const Menu: React.FC = () => {
         <Space size="small">
           <Button
             type="primary"
+            size="small"
             icon={<EditOutlined />}
             onClick={() => showEditModal(record)}
           >
@@ -126,6 +130,7 @@ const Menu: React.FC = () => {
           </Button>
           <Button
             type="primary"
+            size="small"
             danger
             icon={<DeleteOutlined />}
             onClick={() => showDeleteConfirm(record)}
@@ -142,8 +147,8 @@ const Menu: React.FC = () => {
   }
 
   const handleAddOk = async (menu: MenuVo) => {
-    console.log(menu)
-    if (handleResp(await addMenu(menu))) {
+    const res = await addMenu(menu)
+    if (res.code === 0) {
       setShowAddModal(false)
       setNeedLoad(!needLoad)
     }
@@ -159,7 +164,8 @@ const Menu: React.FC = () => {
   }
 
   const handleEditOk = async (menu: MenuVo) => {
-    if (handleResp(await updateMenu(menu))) {
+    const res = await updateMenu(menu)
+    if (res.code === 0) {
       setShowEditModal(false)
       setNeedLoad(!needLoad)
     }
@@ -184,7 +190,8 @@ const Menu: React.FC = () => {
 
   //批量删除
   const handleRemove = async (ids: number[]) => {
-    if (handleResp(await removeMenu(ids))) {
+    const res = await removeMenu(ids)
+    if (res.code === 0) {
       setNeedLoad(!needLoad)
     }
   }
@@ -196,9 +203,10 @@ const Menu: React.FC = () => {
     setNeedLoad(!needLoad)
   }
 
+  // 重置搜索条件 
   const handleResetOk = async () => {
     setSearch({})
-    setNeedLoad(!needLoad)
+    // setNeedLoad(!needLoad)
   }
 
   const setMenuDataTree = (res: IResponse) => {
@@ -210,10 +218,9 @@ const Menu: React.FC = () => {
       return
     }
     setLoading(true)
-    let res = await menuList({ ...search })
-    if (handleResp(res)) {
-      setMenuDataTree(res);
-    // setTotal(res.total)
+    const res = await menuList({ ...search })
+    if (res.code === 0) {
+      setMenuDataTree(res)
     }
     setTimeout(() => {
       setLoading(false)
@@ -225,9 +232,9 @@ const Menu: React.FC = () => {
   }, [needLoad])
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ paddingLeft: 12 }}>
       <div>
-        <Space size={100}>
+        <Space size={60}>
           <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
             {t('新建')}
           </Button>
@@ -252,6 +259,7 @@ const Menu: React.FC = () => {
         rowKey={'id'}
         // tableLayout={'fixed'}
         pagination={false}
+        scroll={{ y: 650 }}
       />
 
       <CreateMenuForm
@@ -271,7 +279,6 @@ const Menu: React.FC = () => {
         <div>
           {t('已选择')}
           {selectedRowKeys.length}
-          {t('项')}
           <Button
             style={{ float: 'right' }}
             danger

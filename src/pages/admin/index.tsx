@@ -142,6 +142,8 @@ const Admin: React.FC<Props>  = ({ setTheme }) => {
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        collapsedWidth={50}
+        width={230}
       >
         <Link to="/home" style={{ display: 'flex', alignItems: 'center' }}>
           <img
@@ -179,10 +181,8 @@ const Admin: React.FC<Props>  = ({ setTheme }) => {
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
           />
-          <Breadcrumb style={{ margin: '10px 40px' }}>
-            {breadCrumbs.map((item, i) => (
-              <Breadcrumb.Item key={i}>{item}</Breadcrumb.Item>
-            ))}
+          <Breadcrumb style={{ margin: '10px 40px' }}
+            items = {breadCrumbs.map((item, i) => ({ title: item, key: i }))}>
           </Breadcrumb>
         </Header>
         
@@ -190,7 +190,7 @@ const Admin: React.FC<Props>  = ({ setTheme }) => {
           <TabPanes/>
           {/*  {routesElement}*/}
         </Content>
-        <Footer style={{ textAlign: 'center', height:'30px'}}>{t('写点东西在这里')}</Footer>
+        <Footer style={{ textAlign: 'center', height:'10px'}}>{t('欢迎')}</Footer>
       </Layout>
       </Layout>
   )

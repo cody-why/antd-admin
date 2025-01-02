@@ -3,9 +3,9 @@
  * @params {param} ListParam
  * @return {Promise}
  */
-import {axiosInstance, IResponse} from "../../api/ajax";
+import {ajax, IResponse} from "../../api/ajax";
 
 export const query_user_menu = (): Promise<IResponse> => {
-    return axiosInstance.get('admin/query_user_menu', {}).then(res => res.data);
+    return ajax.get('admin/user/menu', {});
 };
 

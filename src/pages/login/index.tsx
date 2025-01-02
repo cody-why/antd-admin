@@ -4,7 +4,6 @@ import { Button, Checkbox, Form, Input } from 'antd'
 import './index.less'
 import logo from '../../assets/images/logo.svg'
 import { reqLogin } from './service'
-import { IResponse, handleResp } from '../../api/ajax'
 import { useNavigate } from 'react-router-dom'
 import { storageUtils } from '../../utils/storageUtils'
 import md5 from 'md5'
@@ -32,12 +31,9 @@ const Login: React.FC<Props> = ({ setTheme }) => {
   const onFinish = async (values: any) => {
     let { mobile, password } = values
     password = md5(password)
-    let res: IResponse = await reqLogin({ mobile, password })
-    if (handleResp(res)) {
+    const res = await reqLogin({ mobile, password })
+    if (res.code === 0) {
       storageUtils.saveToken(res.data)
-      // if (res.data.user_id) {
-      //     localStorage.setItem('user_id', res.data.user_id);
-      // }
       navigate('/home')
     }
   }
@@ -49,7 +45,7 @@ const Login: React.FC<Props> = ({ setTheme }) => {
       </div>
       <div className={'header'}>
         <img src={logo} alt="logo" />
-        <h1>{t('pages.welcome.link')}</h1>
+        <h1>{t('欢迎')}</h1>
       </div>
 
       <div className={'content'}>
@@ -62,24 +58,24 @@ const Login: React.FC<Props> = ({ setTheme }) => {
           <Form.Item
             name="mobile"
             rules={[
-              { required: true, message: t('pages.login.username.required') },
+              { required: true, message: t('请输入手机号码!') },
             ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={t('pages.login.username.placeholder')}
+              placeholder={t('手机号码')}
             />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[
-              { required: true, message: t('pages.login.password.required') },
+              { required: true, message: t('请输入密码!') },
             ]}
           >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
-              placeholder={t('pages.login.password.placeholder')}
+              placeholder={t('密码')}
             />
           </Form.Item>
           <Form.Item className={'login-form-item'}>
@@ -88,11 +84,11 @@ const Login: React.FC<Props> = ({ setTheme }) => {
               valuePropName="checked"
               className={'login-form-remember'}
             >
-              <Checkbox>{t('pages.login.rememberMe')}</Checkbox>
+              <Checkbox>{t('记住我')}</Checkbox>
             </Form.Item>
 
             <a className="login-form-forgot" href="#">
-              {t('pages.login.forgotPassword')}
+              {t('忘记密码')}
             </a>
           </Form.Item>
 
@@ -102,7 +98,7 @@ const Login: React.FC<Props> = ({ setTheme }) => {
               htmlType="submit"
               className="login-form-button"
             >
-              {t('pages.login.submit')}
+              {t('登录')}
             </Button>
           </Form.Item>
         </Form>

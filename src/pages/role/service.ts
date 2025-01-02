@@ -1,4 +1,4 @@
-import {axiosInstance, IResponse} from "../../api/ajax";
+import {ajax, IResponse} from "../../api/ajax";
 import {RoleVo, RoleListParam} from "./data";
 
 /**
@@ -7,7 +7,7 @@ import {RoleVo, RoleListParam} from "./data";
  * @return {Promise}
  */
 export const roleList = (req: RoleListParam): Promise<IResponse> => {
-    return axiosInstance.post('admin/role_list', req).then(res => res.data);
+    return ajax.post('admin/role/list', req)
 };
 
 /**
@@ -16,7 +16,7 @@ export const roleList = (req: RoleListParam): Promise<IResponse> => {
  * @return {Promise}
  */
 export const addRole = (role: RoleVo): Promise<IResponse> => {
-    return axiosInstance.post('admin/role_save', role).then(res => res.data);
+    return ajax.post('admin/role', role)
 };
 
 /**
@@ -25,7 +25,7 @@ export const addRole = (role: RoleVo): Promise<IResponse> => {
  * @return {Promise}
  */
 export const updateRole = (role: RoleVo): Promise<IResponse> => {
-    return axiosInstance.post('admin/role_update', role).then(res => res.data);
+    return ajax.put('admin/role', role)
 };
 
 /**
@@ -34,7 +34,7 @@ export const updateRole = (role: RoleVo): Promise<IResponse> => {
  * @return {Promise}
  */
 export const removeRole = (ids: Number[]): Promise<IResponse> => {
-    return axiosInstance.post('admin/role_delete', {ids: ids}).then(res => res.data);
+    return ajax.delete('admin/role', { data: { ids: ids } })
 };
 
 /**
@@ -43,7 +43,7 @@ export const removeRole = (ids: Number[]): Promise<IResponse> => {
  * @return {Promise}
  */
 export const query_role_menu = (role_id: Number): Promise<IResponse> => {
-    return axiosInstance.post('admin/query_role_menu', {role_id: role_id}).then(res => res.data);
+    return ajax.post('admin/role/menu', {role_id: role_id})
 };
 
 /**
@@ -52,5 +52,5 @@ export const query_role_menu = (role_id: Number): Promise<IResponse> => {
  * @return {Promise}
  */
 export const update_role_menu = (role_id: Number, menu_ids: Number[]): Promise<IResponse> => {
-    return axiosInstance.post('admin/update_role_menu', {role_id: role_id, menu_ids: menu_ids}).then(res => res.data);
+    return ajax.put('admin/role/menu', {role_id: role_id, menu_ids: menu_ids})
 };

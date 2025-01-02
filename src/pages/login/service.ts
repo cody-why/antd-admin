@@ -1,4 +1,4 @@
-import {axiosInstance, IResponse} from "../../api/ajax";
+import {ajax, IResponse} from "../../api/ajax";
 import {ILogin, IUser} from "./data";
 
 /**
@@ -7,7 +7,7 @@ import {ILogin, IUser} from "./data";
  * @return {Promise}
  */
 export const reqLogin = (params: ILogin): Promise<IResponse> => {
-    return axiosInstance.post('admin/login', params).then(res => res.data);
+    return ajax.post('admin/login', params);
 };
 
 /**
@@ -16,5 +16,5 @@ export const reqLogin = (params: ILogin): Promise<IResponse> => {
  * @return {Promise}
  */
 export const getUserInfo = (params: IUser): Promise<IResponse> => {
-    return axiosInstance.post('user/getInfo', params).then(res => res.data);
+    return ajax.post('user/getInfo', params);
 };

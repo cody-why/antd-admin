@@ -1,6 +1,6 @@
 export interface RoleListParam {
-    pageNo: number;
-    pageSize?: number;
+    page_no: number;
+    page_size?: number;
     role_name?: string;
     status?: number;
 }

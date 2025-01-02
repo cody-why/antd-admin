@@ -3,12 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import en from '../locales/en.json';
 import zh from '../locales/zh-cn.json';
-import tw from '../locales/zh-tw.json';
 
 export const SUPPORTED_LANG = [
     'zh',
     'en',
-    'tw',
 ];
 const lang = window.localStorage.getItem('i18nextLng') || 'zh';
 // 配置参数的文档: https://www.i18next.com/overview/configuration-options
@@ -21,10 +19,7 @@ const option = {
         },
         zh: {
             translation: zh,
-        },
-        tw: {
-            translation: tw,
-        },
+        }
     },
     interpolation: {
         escapeValue: false, // not needed for react!!
