@@ -12,7 +12,7 @@ const lang = window.localStorage.getItem('i18nextLng') || 'zh';
 // 配置参数的文档: https://www.i18next.com/overview/configuration-options
 const option = {
     fallbackLng: lang, // 默认语言 'zh'
-    debug: process.env.NODE_ENV !== 'production',
+    debug: import.meta.env.DEV,
     resources: { // 支持的语言 //{ ...zh , ...errors  }
         en: {
             translation: en,

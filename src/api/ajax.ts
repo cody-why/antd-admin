@@ -13,7 +13,7 @@ export interface IResponse {
 }
 
 export const axiosInstance: AxiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: import.meta.env.REACT_APP_BASE_URL,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -52,7 +52,7 @@ axiosInstance.interceptors.response.use(
             if (response.status === 401) {
                 storageUtils.logout()
                 setTimeout(() => {
-                    let base = process.env.REACT_APP_BASENAME;
+                    let base = import.meta.env.REACT_APP_BASENAME;
                     base = base? base: "/";
                     if (!base.endsWith("/")) {
                         base = base + "/";

@@ -1,11 +1,15 @@
 # 运行起来
 - 添加.env文件:
-    - REACT_APP_BASE_URL='http://localhost:8000'
-    - REACT_APP_BASENAME=''
-  调试的时候屏蔽REACT_APP_BASENAME,生产环境需要设置目录名,如'/antd-admin'
-- `npm install @craco/craco --save`
+    REACT_APP_BASE_URL='http://localhost:8000'
+    REACT_APP_BASENAME=''
+  ##### 生产环境如果需要设置目录名,如'/admin',则设置REACT_APP_BASENAME='/admin'
+
+- `npm install`
+- `npm install -D vite @vitejs/plugin-react @types/node`
 - `npm start`
-- 修改package.json, `"craco-less": "^3.0.0",`
+- `npm run build`
+- `npm update`
+
 # 添加功能
 - 添加密码加密: `npm install md5 `
 - 添加多语言支持
